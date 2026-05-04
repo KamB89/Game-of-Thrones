@@ -1,12 +1,8 @@
 import './gotHeader.scss';
-import GotService from '../../services/gotService';
 
 const GotHeader = () => {
 
-   const got_service = new GotService()
-
-   got_service.getAllCharacters()
-              .then(res => console.log(res))
+  
 
     return (
         <header className="app__header">
