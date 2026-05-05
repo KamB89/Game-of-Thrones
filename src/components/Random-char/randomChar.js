@@ -35,13 +35,14 @@ class RandomChar extends Component {
     }
 
     updateQuote = (name)=>{
-        this.gotService.getQuoteByName(name)
+        const slug = name.toLowerCase().split(' ')[0]
+        this.gotService.getQuoteByName(slug)
         .then(res=>{
 
-            const quote = res?.[0]?.sentence;
+            console.log('QUOTE RESPONSE:', res);
 
             this.setState({
-                quotes: quote
+                quotes: res
             })
         })
     }
