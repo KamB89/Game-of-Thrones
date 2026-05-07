@@ -9,7 +9,7 @@ import './randomChar.scss'
 
 class RandomChar extends Component {
 
-
+   
     state = {
         char: {},
         quotes: null,
@@ -91,7 +91,7 @@ const content = !(loading || error) ? <View char = {char} quotes = {this.state.q
                     <p className="randomchar__title">
                         Or choose another one
                     </p>
-                    <button className="button button__main">
+                    <button onClick={()=> this.updateChar()} className="button button__main">
                         <div className="inner">try it</div>
                     </button>
                     <img src={Got2} alt="mjolnir" className="randomchar__decoration" />
