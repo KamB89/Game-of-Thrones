@@ -80,3 +80,16 @@ main {
         opacity: 1
     }
 }
+.char__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+}
+.char__list {
+    width: 1000px;
+}
+
+.char__info {
+    width: 425px;
+}

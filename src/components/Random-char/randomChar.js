@@ -26,8 +26,16 @@ class RandomChar extends Component {
 
     }
 
+    onCharLoading = ()=>{
+this.setState({
+    loading: true
+})
+
+    }
+
     updateChar = () => {
         const id = Math.floor(Math.random() * 53)
+        this.onCharLoading()
         this.setState({ quotes: null })
         this.gotService
             .getCharacter(id)

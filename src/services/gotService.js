@@ -55,6 +55,7 @@ class GotService {
   _transformCharacter = (res) => {
 
     return {
+      id: res.id || '',
       fullname: res.fullName || '',
       imageUrl: res.imageUrl || '',
       title: res.title || '',

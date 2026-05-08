@@ -3,6 +3,7 @@
 .char {
     &__content {
         
+        margin-left: 150px;
         margin-top: 50px;
         display: grid;
         grid-template-columns: 650px 425px;
@@ -17,6 +18,7 @@
         max-width: 1100px;
          margin: 0 auto;
          padding-top: 80px;
+         margin-left: 315px
     }
     &__item {
         width: 200px;
@@ -45,3 +47,5 @@
         color: #fff;
     }
 }
+
+

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 
 import GotService from '../../services/gotService';
-
+import ErrorMessage from '../../services/errorMessage';
 
 import Spinner from '../../services/Spinner';
 import './charList.scss';
@@ -18,13 +18,24 @@ class CharList extends Component{
    gotService = new GotService()
 
 updateCharList = () => {
+    this.setState({
+        loading: true
+    })
     this.gotService.getAllCharacters()
         .then(res => {
             this.setState({
                 chars: res.slice(0, 9),
                 loading: false
             });
-        });
+        })
+        .catch(this.onError);
+}
+
+onError = ()=>{
+    this.setState({
+        loading: false,
+        error: true
+    })
 }
 
 componentDidMount(){
@@ -46,12 +57,17 @@ componentDidMount(){
             )
         })
       
-        const content = loading? <Spinner/> : items
+        const load = loading? <Spinner/> : null
+        const errorMessage = error? <ErrorMessage/>: null
+        const content= !(loading || error)? items : null 
+        
 
 
         return (
         <div className="char__list">
             <ul className="char__grid">
+                    {load}
+                    {errorMessage}
                     {content}
 
                 
