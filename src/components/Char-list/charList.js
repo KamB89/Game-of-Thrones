@@ -25,7 +25,8 @@ updateCharList = () => {
         .then(res => {
             this.setState({
                 chars: res.slice(0, 9),
-                loading: false
+                loading: false,
+                error: false
             });
         })
         .catch(this.onError);

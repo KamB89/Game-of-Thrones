@@ -1,5 +1,4 @@
 import './charInfo.scss';
-import GoT2 from '../../resources/img/GoT2.png'
 import { Component } from 'react';
 import GotService from '../../services/gotService';
 import ErrorMessage from '../../services/errorMessage';
@@ -34,7 +33,7 @@ class CharInfo extends Component {
 
     updateChar = () => {
         const { charId } = this.props
-        if (!charId) {
+        if (charId === null || charId === undefined) {
             return;
         }
         this.onCharLoading()
