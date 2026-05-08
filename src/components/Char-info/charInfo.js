@@ -1,13 +1,127 @@
 import './charInfo.scss';
-import GoT2 from '../../resources/img/GoT2.png' 
+import GoT2 from '../../resources/img/GoT2.png'
+import { Component } from 'react';
+import GotService from '../../services/gotService';
+import ErrorMessage from '../../services/errorMessage';
+import Spinner from '../../services/Spinner';
+import Skeleton from '../Skeleton/skeleton';
 
-const CharInfo = () => {
+
+class CharInfo extends Component {
+
+    state = {
+        char: null,
+        loading: false,
+        error: false,
+        quotes: null
+
+    }
+
+    gotService = new GotService()
+
+    componentDidMount() {
+        this.updateChar()
+
+    }
+
+    componentDidUpdate (prevProps, prevState){
+     if(this.props.charId !== prevProps.charId){
+
+        this.updateChar()
+     }
+
+    }
+
+    updateChar = () => {
+        const { charId } = this.props
+        if (!charId) {
+            return;
+        }
+        this.onCharLoading()
+
+        this.gotService.getCharacter(charId)
+            .then(char=> {
+                this.onCharLoaded(char);
+                this.updateQuote(char.fullname || '')
+            } )
+            .catch(this.onError)
+
+    }
+
+    updateQuote = (name) => {
+        
+        const slug = (name || '').toLowerCase().split(' ')[0]
+        this.gotService.getQuoteByName(slug)
+            .then(res => {
+              
+
+                this.setState({
+                    quotes: res
+                })
+            })
+            .catch(this.onError)
+
+    }
+
+
+
+    onCharLoaded = (char) => {
+        this.setState({
+            char,
+            loading: false
+        })
+    }
+
+    onCharLoading = () => {
+        this.setState({
+            loading: true,
+            error: false,
+            quotes: null
+        })
+    }
+
+    onError = () => {
+        this.setState({
+            error: true
+        })
+    }
+
+
+
+
+
+
+    render() {
+
+        const{char, loading, error, quotes} = this.state
+
+        const skeleton = char|| loading|| error?  null : <Skeleton/>
+        const errorMessage = error? <ErrorMessage/> : null
+        const spinner = loading? <Spinner/>: null
+        const content = !(loading || error || !char)? <View char = {char} quotes ={quotes}/>: null
+
+        return (
+            <div className="char__info">
+           {skeleton}
+           {spinner}
+           {errorMessage}
+           {content}
+
+            </div>
+        )
+    }
+}
+
+const View = ({ char ,quotes}) => {
+
+const{fullname, imageUrl} = char
+
     return (
-        <div className="char__info">
+        <>
             <div className="char__basics">
-                <img src={GoT2} alt="abyss"/>
+                <img src={imageUrl} alt="abyss" />
                 <div>
-                    <div className="char__info-name">thor</div>
+                    <div className="char__info-name">{fullname}</div>
                     <div className="char__btns">
                         <a href="#!" className="button button__main">
                             <div className="inner">homepage</div>
@@ -19,7 +133,7 @@ const CharInfo = () => {
                 </div>
             </div>
             <div className="char__descr">
-                In Norse mythology, Loki is a god or jötunn (or both). Loki is the son of Fárbauti and Laufey, and the brother of Helblindi and Býleistr. By the jötunn Angrboða, Loki is the father of Hel, the wolf Fenrir, and the world serpent Jörmungandr. By Sigyn, Loki is the father of Nari and/or Narfi and with the stallion Svaðilfari as the father, Loki gave birth—in the form of a mare—to the eight-legged horse Sleipnir. In addition, Loki is referred to as the father of Váli in the Prose Edda.
+                      {quotes}
             </div>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
@@ -54,7 +168,7 @@ const CharInfo = () => {
                     Avengers (1996) #1
                 </li>
             </ul>
-        </div>
+        </>
     )
 }
 

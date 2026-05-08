@@ -49,7 +49,8 @@ componentDidMount(){
         const items = chars.map(item => {
             return(
 
- <li  key = {item.id} className="char__item char__item_selected">
+ <li  key = {item.id} className="char__item"
+ onClick = {()=> this.props.onCharSelected(item.id)}>
                     <img src={item.imageUrl} alt={item.fullName}/>
                     <div className="char__name">{item.fullName}</div>
                 </li> 
