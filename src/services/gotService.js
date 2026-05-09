@@ -28,11 +28,11 @@ class GotService {
     const res = await this.getResource(`${this._apibase}Characters`)
     return res
   }
-  getQuotes = async () => {
-    const res = await this.getResource(`${this._apibase_quotes}`)
+  // getQuotes = async () => {
+  //   const res = await this.getResource(`${this._apibase_quotes}`)
 
-    return res
-  }
+  //   return res
+  // }
 
   getQuoteByName = async (name) => {
     const res = await this.getResource(

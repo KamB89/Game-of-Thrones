@@ -10,9 +10,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
    got_service.getAllCharacters()
               .then(res => console.log(res))
  
-  //             const name = "Jon Snow"
-  //  got_service.getBooks(name)
-  //  .then(res => console.log(res))           
+              const name = "Jon Snow"
+   got_service.getBooks(name)
+   .then(res => console.log(res))           
 
 
 // got_service.getQuoteByName('tyrion')

@@ -32,6 +32,7 @@ updateCharList = () => {
         .catch(this.onError);
 }
 
+
 onError = ()=>{
     this.setState({
         loading: false,

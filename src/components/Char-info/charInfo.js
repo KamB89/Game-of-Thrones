@@ -22,6 +22,7 @@ class CharInfo extends Component {
     componentDidMount() {
         this.updateChar()
 
+
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -109,7 +110,6 @@ uptadeBooksList = (name) => {
 
 
 
-
     render() {
 
         const { char, loading, error, quotes, books } = this.state
@@ -134,6 +134,7 @@ uptadeBooksList = (name) => {
 }
 
 const View = ({ char, quotes }) => {
+
 
     const { fullname, imageUrl } = char
 
@@ -160,6 +161,7 @@ const View = ({ char, quotes }) => {
 
         </>
     )
+
 }
 
 
@@ -168,6 +170,7 @@ const Books = ({ books }) => {
 
     return (
         <ul className="char__comics-list">
+            {books.length > 0 ? null : 'There is no books with this characters'}
             {books.map((book, i) => (
                 <li
                     key={i}
