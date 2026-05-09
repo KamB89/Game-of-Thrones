@@ -2,13 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/APP/App';
 import './style/style.scss'
-// import GotService from './services/gotService';
+import GotService from './services/gotService';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-//  const got_service = new GotService()
+ const got_service = new GotService()
 
-//    got_service.getAllCharacters()
-//               .then(res => console.log(res))
+   got_service.getAllCharacters()
+              .then(res => console.log(res))
+ 
+  //             const name = "Jon Snow"
+  //  got_service.getBooks(name)
+  //  .then(res => console.log(res))           
+
 
 // got_service.getQuoteByName('tyrion')
 // .then(res=> console.log(res))

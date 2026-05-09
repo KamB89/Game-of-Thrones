@@ -51,6 +51,24 @@ class GotService {
     return this._transformCharacter(res)
   }
 
+  // getBooks = async(name)=>{
+  //   const res = await fetch("https://www.anapioficeandfire.com/api/characters")
+  //   const data = await res.json()
+    
+  //   return data
+
+  // }
+
+
+   getBooks = async (name) => {
+
+    const res = await fetch(
+        `https://www.anapioficeandfire.com/api/characters?name=${name}`
+    );
+
+    return await res.json();
+}
+
 
   _transformCharacter = (res) => {
 
@@ -59,7 +77,7 @@ class GotService {
       fullname: res.fullName || '',
       imageUrl: res.imageUrl || '',
       title: res.title || '',
-      family: res.family || ''
+      family: res.family || '',
     }
 
   }

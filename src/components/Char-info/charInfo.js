@@ -12,7 +12,8 @@ class CharInfo extends Component {
         char: null,
         loading: false,
         error: false,
-        quotes: null
+        quotes: null,
+        books: []
 
     }
 
@@ -23,11 +24,11 @@ class CharInfo extends Component {
 
     }
 
-    componentDidUpdate (prevProps, prevState){
-     if(this.props.charId !== prevProps.charId){
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.charId !== prevProps.charId) {
 
-        this.updateChar()
-     }
+            this.updateChar()
+        }
 
     }
 
@@ -39,20 +40,24 @@ class CharInfo extends Component {
         this.onCharLoading()
 
         this.gotService.getCharacter(charId)
-            .then(char=> {
+            .then(char => {
                 this.onCharLoaded(char);
-                this.updateQuote(char.fullname || '')
-            } )
+                this.updateQuote(char.fullname || '');
+                this.uptadeBooksList(char.fullname || ' ')
+            })
             .catch(this.onError)
 
     }
 
+
+
+
     updateQuote = (name) => {
-        
+
         const slug = (name || '').toLowerCase().split(' ')[0]
         this.gotService.getQuoteByName(slug)
             .then(res => {
-              
+
 
                 this.setState({
                     quotes: res
@@ -61,6 +66,21 @@ class CharInfo extends Component {
             .catch(this.onError)
 
     }
+
+uptadeBooksList = (name) => {
+
+    this.gotService.getBooks(name)
+        .then(res => {
+
+            if (res.length > 0) {
+                this.setState({
+                    books: res[0].books
+                });
+            }
+
+        })
+        .catch(this.onError);
+}
 
 
 
@@ -92,28 +112,30 @@ class CharInfo extends Component {
 
     render() {
 
-        const{char, loading, error, quotes} = this.state
+        const { char, loading, error, quotes, books } = this.state
 
-        const skeleton = char|| loading|| error?  null : <Skeleton/>
-        const errorMessage = error? <ErrorMessage/> : null
-        const spinner = loading? <Spinner/>: null
-        const content = !(loading || error || !char)? <View char = {char} quotes ={quotes}/>: null
+        const skeleton = char || loading || error ? null : <Skeleton />
+        const errorMessage = error ? <ErrorMessage /> : null
+        const spinner = loading ? <Spinner /> : null
+        const content = !(loading || error || !char) ? <View char={char} quotes={quotes} /> : null
+        const booksList = books? <Books books={books}/> : 'There is no books with this character'
 
         return (
             <div className="char__info">
-           {skeleton}
-           {spinner}
-           {errorMessage}
-           {content}
+                {skeleton}
+                {spinner}
+                {errorMessage}
+                {content}
+                {booksList}
 
             </div>
         )
     }
 }
 
-const View = ({ char ,quotes}) => {
+const View = ({ char, quotes }) => {
 
-const{fullname, imageUrl} = char
+    const { fullname, imageUrl } = char
 
     return (
         <>
@@ -132,42 +154,29 @@ const{fullname, imageUrl} = char
                 </div>
             </div>
             <div className="char__descr">
-                      {quotes}
+                {quotes}
             </div>
-            <div className="char__comics">Comics:</div>
-            <ul className="char__comics-list">
-                <li className="char__comics-item">
-                    All-Winners Squad: Band of Heroes (2011) #3
-                </li>
-                <li className="char__comics-item">
-                    Alpha Flight (1983) #50
-                </li>
-                <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #503
-                </li>
-                <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #504
-                </li>
-                <li className="char__comics-item">
-                    AMAZING SPIDER-MAN VOL. 7: BOOK OF EZEKIEL TPB (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Amazing-Spider-Man: Worldwide Vol. 8 (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Asgardians Of The Galaxy Vol. 2: War Of The Realms (Trade Paperback)
-                </li>
-                <li className="char__comics-item">
-                    Vengeance (2011) #4
-                </li>
-                <li className="char__comics-item">
-                    Avengers (1963) #1
-                </li>
-                <li className="char__comics-item">
-                    Avengers (1996) #1
-                </li>
-            </ul>
+            <div className="char__comics">Books:</div>
+
         </>
+    )
+}
+
+
+const Books = ({ books }) => {
+
+
+    return (
+        <ul className="char__comics-list">
+            {books.map((book, i) => (
+                <li
+                    key={i}
+                    className="char__comics-item"
+                >
+                    {book}
+                </li>
+            ))}
+        </ul>
     )
 }
 
