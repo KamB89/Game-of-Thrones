@@ -1,5 +1,6 @@
 import { Component } from 'react';
 
+
 import GotService from '../../services/gotService';
 import ErrorMessage from '../../services/errorMessage';
 
@@ -11,26 +12,30 @@ class CharList extends Component{
    state = {
    chars: [],
    loading: true,
-   error: false
+   error: false,
+   visibleCount: 9,
    } 
    
 
    gotService = new GotService()
 
 updateCharList = () => {
-    this.setState({
-        loading: true
-    })
     this.gotService.getAllCharacters()
-        .then(res => {
-            this.setState({
-                chars: res.slice(0, 9),
-                loading: false,
-                error: false
-            });
-        })
+        .then(this.onCharListLoaded)
         .catch(this.onError);
 }
+
+onCharListLoaded = (chars) =>{
+
+   
+    this.setState({
+        chars,
+        loading: false,
+        newItemLoading: false,
+    })
+}
+
+
 
 
 onError = ()=>{
@@ -41,14 +46,24 @@ onError = ()=>{
 }
 
 componentDidMount(){
+        console.log('MOUNT');
+
     this.updateCharList()
 }
 
 
-    render(){
-       const{chars, loading, error} = this.state 
+loadMore = () =>{
+    this.setState(({visibleCount}) => ({
+        visibleCount: visibleCount +9,
+        }))
+}
 
-        const items = chars.map(item => {
+
+    render(){
+       const{chars, loading, error, visibleCount, charEnded} = this.state 
+        const visibleChars  = chars.slice(0, visibleCount)
+        const Ended = visibleCount >= chars.length;
+        const items = visibleChars.map(item => {
             return(
 
  <li  key = {item.id} className="char__item"
@@ -75,7 +90,10 @@ componentDidMount(){
 
                 
             </ul>
-            <button className="button button__main button__long">
+            <button className="button button__main button__long"
+            disabled = {visibleCount >= chars.length }
+            style = {{'display': Ended? 'none': 'block'}}
+            onClick={()=>{this.loadMore()}}>
                 <div className="inner">load more</div>
             </button>
         </div>
