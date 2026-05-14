@@ -58,21 +58,51 @@ loadMore = () =>{
         }))
 }
 
+itemRefs = [];
+
+setRef = (ref) => {
+    if(ref){
+
+    this.itemRefs.push(ref);
+
+    }
+}
+
+focusOnItem = (id) => {
+       
+        this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
+        this.itemRefs[id].classList.add('char__item_selected');
+        this.itemRefs[id].focus();
+    }
 
     render(){
-       const{chars, loading, error, visibleCount, charEnded} = this.state 
+       const{chars, loading, error, visibleCount} = this.state 
         const visibleChars  = chars.slice(0, visibleCount)
         const Ended = visibleCount >= chars.length;
         const items = visibleChars.map(item => {
             return(
 
- <li  key = {item.id} className="char__item"
- onClick = {()=> this.props.onCharSelected(item.id)}>
+ <li 
+  key = {item.id} 
+  tabIndex={0}
+  className="char__item"
+  ref = {this.setRef}
+  onClick = {()=> {this.props.onCharSelected(item.id)
+                  this.focusOnItem(item.id)}}
+  onKeyPress={(e) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      this.props.onCharSelected(item.id);
+      this.focusOnItem(item.id);
+    }
+  }}
+  >
+    
                     <img src={item.imageUrl} alt={item.fullName}/>
                     <div className="char__name">{item.fullName}</div>
                 </li> 
 
             )
+            
         })
       
         const load = loading? <Spinner/> : null
