@@ -48,14 +48,14 @@ input::-webkit-inner-spin-button {
 }
 
 .app {
-    max-width: 1100px;
+   max-width: 1100px;
     width: 100%;
     margin: 0 auto;
     padding: 50px 15px;
-    position: relative;
+
     .bg-decoration {
         position: absolute;
-        right: 0;
+        right: -174px;
         bottom: -70px;
         z-index: -1;
     }
@@ -79,29 +79,5 @@ main {
     }
     100% {
         opacity: 1
-    }
-}
-.char__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 25px;
-}
-.char__list {
-flex: 1;
-}
-
-.char__info {
-    width: 425px;
-    flex-shrink: 0;
-
-}
-@media (max-width: 1200px) {
-    .char__content {
-        flex-direction: column;
-    }
-
-    .char__info {
-        width: 100%;
     }
 }

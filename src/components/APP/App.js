@@ -5,6 +5,8 @@ import CharInfo from '../Char-info/charInfo';
 import { Component } from 'react';
 import ErrorBoundary from '../Errorboundaries/errorBoundaries';
 
+import './App.scss';
+
 class App extends Component{
 
 state = {
