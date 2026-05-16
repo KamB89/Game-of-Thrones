@@ -48,13 +48,14 @@ input::-webkit-inner-spin-button {
 }
 
 .app {
-    width: 1100px;
+    max-width: 1100px;
+    width: 100%;
     margin: 0 auto;
-    padding: 50px 0 50px 0;
+    padding: 50px 15px;
     position: relative;
     .bg-decoration {
         position: absolute;
-        right: -174px;
+        right: 0;
         bottom: -70px;
         z-index: -1;
     }
@@ -87,9 +88,20 @@ main {
     gap: 25px;
 }
 .char__list {
-    width: 1000px;
+flex: 1;
 }
 
 .char__info {
     width: 425px;
+    flex-shrink: 0;
+
+}
+@media (max-width: 1200px) {
+    .char__content {
+        flex-direction: column;
+    }
+
+    .char__info {
+        width: 100%;
+    }
 }
